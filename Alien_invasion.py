@@ -1,25 +1,31 @@
 #import sys shifted to game function as is only required while calling events regarding exiting ect
-
 import pygame
-from settings import Settings 
+#imports Settings class from settings.py file
+from settings import Settings
+#imports Ship class from ship.py file 
 from ship import Ship
+
 import game_functions as gf 
 
 def run_game():
     #initialises game and create screen objects
     pygame.init()
-    ai_settings = Settings()   #calling class in ai_settings
-    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))   
-    pygame.display.set_caption("Alien invasion")    #caption of screen
-
-    ship = Ship(screen)  #makes an instance of ship
-
+    #calling class in ai_settings
+    ai_settings = Settings()
+    #makes screen of specific dimensions
+    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
+    #caption of screen   
+    pygame.display.set_caption("Alien invasion")    
+    #makes an instance of ship
+    ship = Ship(ai_settings, screen)
     #start main looop of the game
-    while True:     #any action taken by the user is taken here (in a game things tent to change alot therfore while things are changing screen gets updated)
-        gf.check_events()
+    #any action taken by the user is taken here (in a game things tent to change alot therfore while things are changing screen gets updated)
+    while True:
+        gf.check_events(ship)
+        ship.update()
         gf.update_screen(ai_settings, screen, ship)
 
-
-run_game() #function run
+#function run
+run_game()
 
 
