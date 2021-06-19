@@ -1,10 +1,9 @@
-import sys  #quits the game when user wants to
+#import sys shifted to game function as is only required while calling events regarding exiting ect
 
 import pygame
-
 from settings import Settings 
-
 from ship import Ship
+import game_functions as gf 
 
 def run_game():
     #initialises game and create screen objects
@@ -17,16 +16,9 @@ def run_game():
 
     #start main looop of the game
     while True:     #any action taken by the user is taken here (in a game things tent to change alot therfore while things are changing screen gets updated)
-        #records keyboard and mouse events
-        for event in pygame.event.get():    #checks for events in pygame lib
-            if event.type == pygame.QUIT:   #compares that event with QUIT event
-                sys.exit()  #exits the game when encountered 
-        screen.fill(ai_settings.bg_color) #fills the screen with this color
-        #ship is placed on screen after the screen is filled with colours
-        ship.blitme()
+        gf.check_events()
+        gf.update_screen(ai_settings, screen, ship)
 
-        #make most recently drawn screen visible
-        pygame.display.flip()
 
 run_game() #function run
 
