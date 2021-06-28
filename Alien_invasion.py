@@ -17,7 +17,7 @@ def run_game():
     #makes screen of specific dimensions
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     #caption of screen   
-    pygame.display.set_caption("Alien invasion")    
+    pygame.display.set_caption("RunLien")    
     #makes an instance of ship
     ship = Ship(ai_settings, screen)
     #group to store bullets in it
@@ -30,8 +30,8 @@ def run_game():
     while True:
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        bullets.update()
-        gf.update_bullets(bullets) 
+        gf.update_bullets(bullets)
+        gf.update_aliens(ai_settings, aliens)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 #function run
