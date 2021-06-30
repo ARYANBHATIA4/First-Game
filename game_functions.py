@@ -75,19 +75,34 @@ def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     #takes 2 argument sprite and a group and checks collision among them sprite or none is returned
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+    
+    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+
+def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
+    """checks for any alies reaching bottom of the screen"""
+    screen_rect = screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            #same thin happens as it happens when ship hits alien
+            ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+            break
 
 def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
     """respond when collision occur"""
-    #decrement the value of ship_left
-    stats.ship_left -= 1
-    #when hit remove bullets and aliens from screen
-    aliens.empty()
-    bullets.empty()
-    #create a new fleet with ship at centre
-    create_fleet(ai_settings, screen,ship, aliens)
-    ship.center_ship()
-    #pause for a sec to collect defeat
-    sleep(1.0)
+    if stats.ship_left > 0:
+        #decrement the value of ship_left
+        stats.ship_left -= 1
+        #when hit remove bullets and aliens from screen
+        aliens.empty()
+        bullets.empty()
+        #create a new fleet with ship at centre
+        create_fleet(ai_settings, screen,ship, aliens)
+        ship.center_ship()
+        #pause for a sec to collect defeat
+        sleep(1.0)
+
+    else:
+        stats.game_active = False
 
 def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
     #first true tells that after the bullet hits the alien bullet dissapears second T for alien
