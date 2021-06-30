@@ -2,7 +2,9 @@
 import pygame
 #imports Settings class from settings.py file
 from settings import Settings
-#imports Ship class from ship.py file 
+#imports Ship class from ship.py file
+from game_stats import GameStats
+
 from ship import Ship
 
 import game_functions as gf 
@@ -17,7 +19,9 @@ def run_game():
     #makes screen of specific dimensions
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     #caption of screen   
-    pygame.display.set_caption("RunLien")    
+    pygame.display.set_caption("RunLien")
+    #stores game stats
+    stats = GameStats(ai_settings)    
     #makes an instance of ship
     ship = Ship(ai_settings, screen)
     #group to store bullets in it
@@ -32,7 +36,7 @@ def run_game():
         ship.update()
         bullets.update()
         gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ai_settings, ship, aliens) 
+        gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets) 
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 #function run

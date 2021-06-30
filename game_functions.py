@@ -1,6 +1,8 @@
 #quits the game when user wants to
 import sys
 
+from time import sleep
+
 import pygame
 
 from bullet import Bullet
@@ -62,7 +64,7 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets):
                 bullets.remove(bullet)
     check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets)    
 
-def update_aliens(ai_settings,ship, aliens):
+def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     """
     check if the fleet is at an edge,
     and then position of all aliens in the fleet
@@ -72,7 +74,20 @@ def update_aliens(ai_settings,ship, aliens):
     #checks ship and alien collision
     #takes 2 argument sprite and a group and checks collision among them sprite or none is returned
     if pygame.sprite.spritecollideany(ship, aliens):
-        print("SHIP HIT!!!")
+        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+
+def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+    """respond when collision occur"""
+    #decrement the value of ship_left
+    stats.ship_left -= 1
+    #when hit remove bullets and aliens from screen
+    aliens.empty()
+    bullets.empty()
+    #create a new fleet with ship at centre
+    create_fleet(ai_settings, screen,ship, aliens)
+    ship.center_ship()
+    #pause for a sec to collect defeat
+    sleep(1.0)
 
 def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
     #first true tells that after the bullet hits the alien bullet dissapears second T for alien
