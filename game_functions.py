@@ -54,16 +54,34 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     #most recently drawn screen visible
     pygame.display.flip()
 
-def update_bullets(aliens, bullets):
+def update_bullets(ai_settings, screen, ship, aliens, bullets):
     #getting rid of the old bullets
     # we should not remove anything directly from group so .copy()    
     for bullet in bullets.copy():
             if bullet.rect.bottom <= 0:
                 bullets.remove(bullet)
+    check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets)    
+
+def update_aliens(ai_settings,ship, aliens):
+    """
+    check if the fleet is at an edge,
+    and then position of all aliens in the fleet
+    """
+    check_fleet_edges(ai_settings, aliens)
+    aliens.update()
+    #checks ship and alien collision
+    #takes 2 argument sprite and a group and checks collision among them sprite or none is returned
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("SHIP HIT!!!")
+
+def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
     #first true tells that after the bullet hits the alien bullet dissapears second T for alien
-    colissions = pygame.sprite.groupcollide(bullets, aliens, False, True)
-        
-    
+    colissions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if len(aliens) == 0:
+        #destroy existing bullets and create a new fleet
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+            
 def create_fleet(ai_settings, screen, ship, aliens):
     """create a full fleet of aliens"""
     #creates and finds no of aliens in a row
@@ -113,12 +131,5 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
 
-def update_aliens(ai_settings, aliens):
-    """
-    check if the fleet is at an edge,
-    and then position of all aliens in the fleet
-    """
-    check_fleet_edges(ai_settings, aliens)
-    aliens.update()
 
 
