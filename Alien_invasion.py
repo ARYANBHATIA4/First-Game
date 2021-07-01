@@ -1,13 +1,15 @@
-#import sys shifted to game function as is only required while calling events regarding exiting ect
+#import sys shifted to game function as is only required while calling events regarding exiting ect...
 import pygame
 #imports Settings class from settings.py file
 from settings import Settings
 #imports Ship class from ship.py file
 from game_stats import GameStats
 
+from button import Button
+
 from ship import Ship
 
-import game_functions as gf 
+import game_functions as gf
 #importing Group from sprite
 from pygame.sprite import Group
 
@@ -18,11 +20,13 @@ def run_game():
     ai_settings = Settings()
     #makes screen of specific dimensions
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
-    #caption of screen   
+    #caption of screen
     pygame.display.set_caption("RunLien")
+    #Make a play button
+    play_button = Button(ai_settings, screen, "PLAY")
     #stores game stats
     stats = GameStats(ai_settings)    
-    #makes an instance of ship
+    #makes an instance(easier copy) of ship
     ship = Ship(ai_settings, screen)
     #group to store bullets in it
     bullets = Group()
@@ -40,10 +44,7 @@ def run_game():
             gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
-        
+        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
 
 #function run
 run_game()
-
-

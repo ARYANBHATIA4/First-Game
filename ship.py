@@ -2,7 +2,7 @@ import pygame
 
 class Ship():
     #ai_settings to be used on update
-    def __init__(self,ai_settings, screen):
+    def __init__(self, ai_settings, screen):
         """initialize ship and set starting position"""
         self.screen  = screen
         self.ai_settings = ai_settings
@@ -30,7 +30,6 @@ class Ship():
             #self.rect.centerx += 1
         if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
-
         #update rect object from self.center
         self.rect.centerx = self.center
 

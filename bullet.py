@@ -15,7 +15,6 @@ class Bullet(Sprite):
         self.rect.top = ship.rect.top
         #store value in float for convinience
         self.y = float(self.rect.y)
-
         self.color = ai_settings.bullet_color
         self.speed_factor = ai_settings.bullet_speed_factor
 
