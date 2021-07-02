@@ -48,7 +48,10 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 
 def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     """starts new game when button is clicked"""
-    if play_button.rect.collidepoint(mouse_x, mouse_y):
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+        #hiding mouse cursor
+        pygame.mouse.set_visible(False)
         stats.reset_stats()
         stats.game_active = True
         aliens.empty()
@@ -143,6 +146,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         sleep(1.0)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
     """checks for any alies reaching bottom of the screen"""
