@@ -28,6 +28,7 @@ class Button():
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
 
+
     def draw_button(self):
         #draw balnk button and then draw message
         self.screen.fill(self.button_color, self.rect)

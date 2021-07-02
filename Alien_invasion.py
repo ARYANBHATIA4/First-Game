@@ -36,7 +36,7 @@ def run_game():
     #start main looop of the game
     #any action taken by the user is taken here (in a game things tent to change alot therfore while things are changing screen gets updated)
     while True:
-        gf.check_events(ai_settings, screen, ship, bullets)
+        gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 
         if stats.game_active:
             ship.update()
