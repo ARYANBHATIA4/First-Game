@@ -17,7 +17,11 @@ class Scoreboard():
 
     def prep_score(self):
         """turns score into a rendered image"""
-        score_str = str(self.stats.score)
+        #round returns a decimal value but when passed a negative value it returns values closest to 100
+        #also py.version 2.7 and below returns only a decimal value if using above ver you can skip int part
+        rounded_score = int(round(self.stats.score, -1))
+        #this line adds , between zeros 1,00,000
+        score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True, self.text_color, self.ai_settings.bg_color)
         #display the score at the top right corner of screen
         self.score_rect = self.score_image.get_rect()
