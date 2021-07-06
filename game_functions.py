@@ -99,6 +99,7 @@ def check_bullet_alien_collision(ai_settings, screen,stats, sb, ship, aliens, bu
         for aliens in colissions.values():
             stats.score += ai_settings.alien_points * len(aliens)
             sb.prep_score()
+            check_high_score(stats, sb)
     if len(aliens) == 0:
         #destroy existing bullets, speed up and create a new fleet
         bullets.empty()
@@ -192,3 +193,9 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien.rect.x = alien.x
     alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
+
+def check_high_score(stats, sb):
+    """check for any new highscore"""
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
