@@ -13,6 +13,8 @@ import game_functions as gf
 #importing Group from sprite
 from pygame.sprite import Group
 
+from scoreboard import Scoreboard
+
 def run_game():
     #initialises game and create screen objects
     pygame.init()
@@ -24,8 +26,9 @@ def run_game():
     pygame.display.set_caption("RunLien")
     #Make a play button
     play_button = Button(ai_settings, screen, "PLAY")
-    #stores game stats
+    #stores game stats and create a scoreboard
     stats = GameStats(ai_settings)    
+    sb = Scoreboard(ai_settings, screen, stats)
     #makes an instance(easier copy) of ship
     ship = Ship(ai_settings, screen)
     #group to store bullets in it
@@ -41,10 +44,10 @@ def run_game():
         if stats.game_active:
             ship.update()
             bullets.update()
-            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button)
 
 #function run
 run_game()

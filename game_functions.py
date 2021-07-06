@@ -68,7 +68,7 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
         start_game(ai_settings, screen, stats, ship, aliens, bullets)
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     #ship is placed on screen after the screen is filled with colours
     screen.fill(ai_settings.bg_color)
     #redraw all bullets
@@ -77,23 +77,28 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     #make most recently drawn screen visible
     ship.blitme()
     aliens.draw(screen)
+    sb.show_score()
     #draws a button if game is inactive 
     if not stats.game_active:
         play_button.draw_button()
     #most recently drawn screen visible
     pygame.display.flip()
 
-def update_bullets(ai_settings, screen, ship, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
     #getting rid of the old bullets
     #we should not remove anything directly from group so .copy()
     for bullet in bullets.copy():
             if bullet.rect.bottom <= 0:
                 bullets.remove(bullet)
-    check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets)
+    check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
-def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collision(ai_settings, screen,stats, sb, ship, aliens, bullets):
     #first true tells that after the bullet hits the alien bullet dissapears second T for alien
     colissions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if colissions:
+        for aliens in colissions.values():
+            stats.score += ai_settings.alien_points * len(aliens)
+            sb.prep_score()
     if len(aliens) == 0:
         #destroy existing bullets, speed up and create a new fleet
         bullets.empty()
